@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 
 # Function to get data from Excel
-@st.cache_resource
+@st.cache
 def get_data_from_excel():
     df = pd.read_excel("causes.xlsx", engine="openpyxl", sheet_name="causes", usecols="A:H", nrows=818)
     return df
