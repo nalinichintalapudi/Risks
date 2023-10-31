@@ -46,24 +46,31 @@ df_selection = df.query(
     "Risk==@Risk & Age==@Age & Rank==@Rank & Nationality==@Nationality"
 )
 
+
+
 title = f"Risk Factors, {Rank}"
 st.markdown(f"<h3 style='black: red;text-align: center'> {title}</h3>", unsafe_allow_html=True)
 
-# Create a bar chart using Plotly with "Risk" as a legend and "95% CI" as labels
-
 if not df_selection.empty:
     # Create a bar chart with 'Age' as a subplot
-    fig = px.bar(df_selection, x='Nationality', y='Number of cases', color='Risk', text='Prevalence', facet_col='Age')
+    fig = px.bar(df_selection, x='Nationality', y='Count', color='Risk', text='Prevalence')
+
+    # Set custom data for the hover label
+    customdata = df_selection[['Nationality', 'Age', 'Risk', 'Rank']]
+    fig.update_traces(customdata=customdata)
+
+    # Define the hovertemplate with dynamic data
+    hovertemplate = "<b>2022</b><br><b>Nationality</b>: %{customdata[0]}<br><b>Rank</b>: %{customdata[3]}<br><b>Age</b>: %{customdata[1]}<br><b>Prevalence</b>: %{text}"
+    fig.update_traces(hovertemplate=hovertemplate)
     
     # Adjust the width of the bars to center-align them
-    fig.update_traces(marker=dict(line=dict(width=0)))  # Adjust the 'width' as needed
-
+    fig.update_traces(selector=dict(line=dict(width=3)) )  # Adjust the 'width' as needed
+     
     left, middle, right = st.columns((1, 10, 1))
     with middle:
-        st.plotly_chart(fig)
+        st.write(fig)
 else:
     st.warning('No data available for the selected options.')
-
 
 
 # ---- HIDE STREAMLIT STYLE ----
@@ -75,3 +82,6 @@ hide_st_style = """
             </style>
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)
+
+
+
