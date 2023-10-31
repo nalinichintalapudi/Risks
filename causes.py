@@ -65,6 +65,7 @@ if not df_selection.empty:
     
     # Adjust the width of the bars to center-align them
     fig.update_traces(selector=dict(line=dict(width=3)) )  # Adjust the 'width' as needed
+    fig.update_traces(hoverlabel_font_size=10, hoverlabel_bgcolor='white')
      
     left, middle, right = st.columns((1, 10, 1))
     with middle:
