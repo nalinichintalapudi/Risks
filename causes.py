@@ -68,7 +68,7 @@ if not df_selection.empty:
      
     left, middle, right = st.columns((1, 10, 1))
     with middle:
-        st.write(fig)
+        st.write(fig, use_container_width=True)
 else:
     st.warning('No data available for the selected options.')
 
